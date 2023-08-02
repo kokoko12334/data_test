@@ -1,8 +1,5 @@
 from kafka import KafkaProducer
 import json
-import time
-from csv import reader
-
 
 class MessageProducer:
     broker = ""

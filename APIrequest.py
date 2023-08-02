@@ -13,9 +13,10 @@ import KafkaPro
 #                     "&likeSrtnCd=005930"
 #                     )
 
+
 for _ in range(10000):
     response = requests.get(
-        "https://api.iex.cloud/v1/data/core/quote/aapl?token=sk_0b416928c4eb474fb320e01f47904d31"
+        "https://api.iex.cloud/v1/data/core/quote/aapl?token=pk_9458a38e10dd4d40bfe7c9a106550cc9"
     )
     
     print(response)
