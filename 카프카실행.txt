@@ -1,0 +1,18 @@
+#야물 실행
+
+docker-compose -f docker-compose.yaml up -d
+
+
+#토픽 한개 생성
+docker-compose exec kafka-1 kafka-topics --create --topic StockPrices --bootstrap-server kafka-1:9092 --replication-factor 3 --partitions 3
+
+
+
+#토픽 확인
+docker-compose exec kafka-1 kafka-topics --describe --topic StockPrices --bootstrap-server kafka-1:9092
+
+
+#컨슈머 실행
+docker-compose exec kafka-1 bash
+
+kafka-console-consumer --topic StockPrices --bootstrap-server kafka-1:9092
