@@ -1,10 +1,10 @@
 #야물 실행
 
-docker-compose -f docker-compose.yaml up -d
+docker-compose -f docker-compose.yml up -d
 
 
 #토픽 한개 생성
-docker-compose exec kafka-1 kafka-topics --create --topic StockPrices --bootstrap-server kafka-1:9092 --replication-factor 3 --partitions 3
+docker-compose exec kafka-1 kafka-topics --create --topic StockPrices --bootstrap-server kafka-1:9092 --replication-factor 1 --partitions 3
 
 
 
@@ -16,3 +16,8 @@ docker-compose exec kafka-1 kafka-topics --describe --topic StockPrices --bootst
 docker-compose exec kafka-1 bash
 
 kafka-console-consumer --topic StockPrices --bootstrap-server kafka-1:9092
+
+kafka-console-consumer --topic StockPrices --bootstrap-server kafka-1:9092 --from-beginning
+
+
+kafka-console-producer --topic StockPrices --broker-list kafka-1:9092
