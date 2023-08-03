@@ -1,7 +1,10 @@
 from kafka import KafkaConsumer
+import logging
 
-broker = "localhost:29092"
-topic = "StockPrices"
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+broker = "localhost:9093"
+topic = "test"
 
 consumer = KafkaConsumer(
     topic,
@@ -10,6 +13,9 @@ consumer = KafkaConsumer(
     enable_auto_commit=True,
 )
 
-
+lst = []
 for message in consumer:
-    print(message.topic, message.partition, message.offset, message.key, message.value)
+
+    lst.append(message.value)
+    logging.info(f"topic: {message.topic} partition:{message.partition} data:{len(lst)}")
+
