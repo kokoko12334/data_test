@@ -1,5 +1,7 @@
 version: '3'
-
+networks:
+    kafka-net:
+      driver: bridge
 
 services:
   zookeeper-1:
@@ -17,7 +19,8 @@ services:
       - ${Z}:/data
       - ${Z}:/datalog
       - ${Z}:/logs
-
+    networks:
+      - kafka-net
   zookeeper-2:
     image: confluentinc/cp-zookeeper:latest
     user: root
@@ -33,7 +36,8 @@ services:
       - ${Z}:/data
       - ${Z}:/datalog
       - ${Z}:/logs
-
+    networks:
+      - kafka-net
   zookeeper-3:
     image: confluentinc/cp-zookeeper:latest
     user: root
@@ -49,7 +53,8 @@ services:
       - ${Z}:/data
       - ${Z}:/datalog
       - ${Z}:/logs
-
+    networks:
+      - kafka-net
   kafka-1:
     image: confluentinc/cp-kafka:latest
     user: root
@@ -57,23 +62,24 @@ services:
       - zookeeper-1
       - zookeeper-2
       - zookeeper-3
+
     ports:
       - 29092:29092
-      - 9999:9999
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181
       KAFKA_LISTENERS: PLAINTEXT://kafka-1:9092,PLAINTEXT_HOST://:29092
+      JMX_PORT: 9093
+      KAFKA_JMX_OPTS: -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=${IP} -Dcom.sun.management.jmxremote.rmi.port=9093
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:9092,PLAINTEXT_HOST://${IP}:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_JMX_OPTS: -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=${IP}:29092 -Djava.net.preferIPv4Stack=true
-      JMX_PORT: 9999
-    volumes:
-      - ${K}/kafka-1:/var/lib/kafka/data
-
+    # volumes:
+      # - ${K}/kafka-1:/var/lib/kafka/data
+    networks:
+      - kafka-net  
       
   kafka-2:
     image: confluentinc/cp-kafka:latest
@@ -82,6 +88,7 @@ services:
       - zookeeper-1
       - zookeeper-2
       - zookeeper-3
+
     ports:
       - "39092:39092"
     environment:
@@ -93,9 +100,10 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-    volumes:
-      - ${K}/kafka-2:/var/lib/kafka/data  
-
+    # volumes:
+      # - ${K}/kafka-2:/var/lib/kafka/data  
+    networks:
+      - kafka-net
   kafka-3:
     image: confluentinc/cp-kafka:latest
     user: root
@@ -115,5 +123,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 3
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 3
-    volumes:
-      - ${K}/kafka-3:/var/lib/kafka/data
+    # volumes:
+    #   - ${K}/kafka-3:/var/lib/kafka/data
+    networks:
+      - kafka-net

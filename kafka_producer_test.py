@@ -2,7 +2,7 @@ import KafkaPro
 import threading
 import logging
 import sys
-
+import time
 msg = b'a'*4000
 
 broker = input("broker: ")
@@ -23,10 +23,10 @@ def req(msg,num):
 if __name__ == "__main__":
 
 
-    
+    s = time.time()   
     req(msg,num)
-
-
+    e = time.time()
+    logging.info(f"time:{e-s}")
 
     # num_spl = num//4
     # t1 = threading.Thread(target=req, args=(msg,num_spl))
