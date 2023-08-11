@@ -1,6 +1,4 @@
-version: '3'
-
-
+version: '2'
 services:
   zookeeper-1:
     image: confluentinc/cp-zookeeper:latest
@@ -14,9 +12,9 @@ services:
     ports:
       - "22181:2181"
     volumes:
-      - ${Z}:/data
-      - ${Z}:/datalog
-      - ${Z}:/logs
+      - /mnt/disks/sdc/kafka_storage/zookeeper:/data
+      - /mnt/disks/sdc/kafka_storage/zookeeper:/datalog
+      - /mnt/disks/sdc/kafka_storage/zookeeper:/logs
 
   zookeeper-2:
     image: confluentinc/cp-zookeeper:latest
@@ -30,9 +28,9 @@ services:
     ports:
       - "32181:2181"
     volumes:
-      - ${Z}:/data
-      - ${Z}:/datalog
-      - ${Z}:/logs
+      - /mnt/disks/sdc/kafka_storage/zookeeper:/data
+      - /mnt/disks/sdc/kafka_storage/zookeeper:/datalog
+      - /mnt/disks/sdc/kafka_storage/zookeeper:/logs
 
   zookeeper-3:
     image: confluentinc/cp-zookeeper:latest
@@ -46,9 +44,9 @@ services:
     ports:
       - "42181:2181"
     volumes:
-      - ${Z}:/data
-      - ${Z}:/datalog
-      - ${Z}:/logs
+      - /mnt/disks/sdc/kafka_storage/zookeeper:/data
+      - /mnt/disks/sdc/kafka_storage/zookeeper:/datalog
+      - /mnt/disks/sdc/kafka_storage/zookeeper:/logs
 
   kafka-1:
     image: confluentinc/cp-kafka:latest
@@ -57,23 +55,20 @@ services:
       - zookeeper-1
       - zookeeper-2
       - zookeeper-3
+
     ports:
       - 29092:29092
-      - 9999:9999
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181
       KAFKA_LISTENERS: PLAINTEXT://kafka-1:9092,PLAINTEXT_HOST://:29092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:9092,PLAINTEXT_HOST://${IP}:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:9092,PLAINTEXT_HOST://34.146.29.164:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_JMX_OPTS: -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=${IP}:29092 -Djava.net.preferIPv4Stack=true
-      JMX_PORT: 9999
     volumes:
-      - ${K}/kafka-1:/var/lib/kafka/data
-
+      - /mnt/disks/sdc/kafka_storage/kafka-1:/var/lib/kafka/data
       
   kafka-2:
     image: confluentinc/cp-kafka:latest
@@ -82,19 +77,20 @@ services:
       - zookeeper-1
       - zookeeper-2
       - zookeeper-3
+
     ports:
-      - "39092:39092"
+      - 39092:39092
     environment:
       KAFKA_BROKER_ID: 2
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181
       KAFKA_LISTENERS: PLAINTEXT://kafka-2:9092,PLAINTEXT_HOST://:39092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-2:9092,PLAINTEXT_HOST://${IP}:39092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-2:9092,PLAINTEXT_HOST://34.146.29.164:39092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
     volumes:
-      - ${K}/kafka-2:/var/lib/kafka/data  
+      - /mnt/disks/sdc/kafka_storage/kafka-2:/var/lib/kafka/data  
 
   kafka-3:
     image: confluentinc/cp-kafka:latest
@@ -105,15 +101,16 @@ services:
       - zookeeper-3
 
     ports:
-      - "49092:49092"
+      - 49092:49092
     environment:
       KAFKA_BROKER_ID: 3
       KAFKA_LISTENERS: PLAINTEXT://kafka-3:9092,PLAINTEXT_HOST://:49092
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-3:9092,PLAINTEXT_HOST://${IP}:49092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-3:9092,PLAINTEXT_HOST://34.146.29.164:49092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 3
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 3
     volumes:
-      - ${K}/kafka-3:/var/lib/kafka/data
+      - /mnt/disks/sdc/kafka_storage/kafka-3:/var/lib/kafka/data 
+      

@@ -1,0 +1,8 @@
+34.146.29.164:29092
+
+
+11:53
+
+11:55:55 ~ 11:56:05
+
+dict_keys(['kafka-metrics-count', 'producer-metrics', 'producer-node-metrics.node-bootstrap-0', 'producer-node-metrics.node-3', 'producer-node-metrics.node-2', 'producer-node-metrics.node-1', 'producer-topic-metrics.test2'])

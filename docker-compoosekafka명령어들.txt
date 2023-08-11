@@ -1,0 +1,48 @@
+broker = "34.146.29.164:29092"
+topic = "test1"
+
+
+192.168.0.26:29092
+start: 2:31 ~
+
+#topics
+
+--생성
+docker-compose -f docker-compose_server.yml exec kafka-1 kafka-topics --create --topic test1 --bootstrap-server kafka-1:9092 --replication-factor 3 --partitions 3
+
+docker-compose exec kafka-1 kafka-topics --create --topic test1 --bootstrap-server kafka-1:9092 --replication-factor 3 --partitions 3
+
+--조회
+docker-compose -f docker-compose_server.yml exec kafka-1 kafka-topics --list --bootstrap-server kafka-1:9092
+
+
+--삭제
+docker-compose -f docker-compose_server.yml exec kafka-1 kafka-topics --delete --bootstrap-server kafka-1:9092 --topic test1
+
+
+
+
+
+
+#pro
+
+docker-compose -f docker-compose.yml exec kafka-1 kafka-producer-perf-test \
+--producer-props bootstrap.servers=34.146.29.164:29092 \
+--topic test1 \
+--record-size 2000 --num-records 20000000 --throughput -1 \
+--print-metric
+
+
+
+
+#con
+
+docker-compose -f docker-compose.yml exec kafka-1 kafka-consumer-perf-test \
+--broker-list 34.146.29.164:29092 \
+--topic test1 \
+--messages 20000000 \
+--show-detailed-stats \
+--reporting-interval 1000
+
+
+wget https://github.com/danielqsj/kafka_exporter/releases/download/v2.3.1/kafka_exporter-2.3.1.linux-amd64.tar.gz

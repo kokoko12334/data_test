@@ -1,0 +1,22 @@
+
+
+
+-jmx exporter:9308
+docker pull bitnami/jmx-exporter
+
+
+- 실행
+docker run -ti --rm -d -p 9308:9308 danielqsj/kafka-exporter --kafka.server=192.168.0.26:29092 --kafka.server=192.168.0.26:39092 --kafka.server=192.168.0.26:49092
+
+
+
+-prometheus:9090
+
+./prometheus --config.file=./prometheus.yml
+docker pull bitnami/prometheus
+
+
+
+-grafana: 3000
+
+docker pull grafana/grafana
