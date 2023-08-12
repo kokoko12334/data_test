@@ -14,8 +14,12 @@ consumer_config = {
     'group_id': g_id,
     'auto_offset_reset': 'latest',
     'enable_auto_commit': True,
-    'consumer_timeout_ms': 10000,
-    'fetch_min_bytes':1024
+    'consumer_timeout_ms': 60000,
+    'max_partition_fetch_bytes':1024*1024,
+    'session_timeout_ms':70000,
+    # 'fetch_max_bytes':1024*1024*60,
+    'max_poll_records': 5000
+
 }
 
 num_consumers = 3
@@ -23,7 +27,7 @@ num_consumers = 3
 consumers = []
 for i in range(num_consumers):
     consumer = KafkaConsumer(**consumer_config)
-    consumer.subscribe(('test1','test2'))
+    consumer.subscribe(('test1','test2','test3'))
     consumers.append(consumer)
     
 def consumer_messages(consumer_instance):

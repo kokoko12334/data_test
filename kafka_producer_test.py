@@ -3,7 +3,7 @@ import threading
 import logging
 import sys
 import time
-msg = b'a'*4000
+msg = b'a'*4092
 
 broker = input("broker: ")
 topic = input("topic: ")
@@ -24,11 +24,11 @@ if __name__ == "__main__":
 
 
     s = time.time()   
+    
     req(msg,num)
-    e = time.time()
-    logging.info(f"time:{e-s}")
-
-    # num_spl = num//4
+    
+    
+    # num_spl = num//3
     # t1 = threading.Thread(target=req, args=(msg,num_spl))
     # t2 = threading.Thread(target=req, args=(msg,num_spl))
     # t3 = threading.Thread(target=req, args=(msg,num_spl))
@@ -44,3 +44,5 @@ if __name__ == "__main__":
     # t3.join()
     # t4.join()
 
+    e = time.time()
+    logging.info(f"time:{e-s}")
