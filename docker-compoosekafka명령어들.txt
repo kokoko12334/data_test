@@ -38,7 +38,7 @@ docker-compose -f docker-compose.yml exec kafka-1 kafka-producer-perf-test \
 #con
 
 docker-compose -f docker-compose.yml exec kafka-1 kafka-consumer-perf-test \
---broker-list 34.146.29.164:29092 \
+--broker-list 34.146.29.164:2139092 \
 --topic test1 \
 --messages 20000000 \
 --show-detailed-stats \
@@ -46,3 +46,15 @@ docker-compose -f docker-compose.yml exec kafka-1 kafka-consumer-perf-test \
 
 
 wget https://github.com/danielqsj/kafka_exporter/releases/download/v2.3.1/kafka_exporter-2.3.1.linux-amd64.tar.gz
+
+
+
+13:03:0013
+~13:22:00
+
+
+
+
+
+
+

@@ -18,7 +18,9 @@ consumer_config = {
     'max_partition_fetch_bytes':1024*1024,
     'session_timeout_ms':70000,
     # 'fetch_max_bytes':1024*1024*60,
-    'max_poll_records': 5000
+    'max_poll_records': 2000,
+    'fetch_min_bytes':1024*126,
+    'fetch_max_wait_ms':1000
 
 }
 
@@ -33,10 +35,11 @@ for i in range(num_consumers):
 def consumer_messages(consumer_instance):
     for message in consumer_instance:
         if message:
-            logging.info(f"topic: {message.topic}, partition:{message.partition}, msg_size:{sys.getsizeof(message.value)}Bytes")
+            logging.info(f"topic: {message.topic}, partition:{message.partition}, msg_size:{sys.getsizeof(message.value)}Byte")
 
 
 if __name__ == "__main__":
+ 
     threads = []
     for consumer in consumers:
         thread = Thread(target=consumer_messages, args=(consumer,),daemon=True)
@@ -45,4 +48,3 @@ if __name__ == "__main__":
 
     for thread in threads:
         thread.join()
-
