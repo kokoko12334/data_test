@@ -22,6 +22,7 @@ df['disk_wb'] = df['disk_wb']/1000000
 df['received_bytes'] = df['received_bytes']/1000000
 df['sent_bytes'] = df['sent_bytes']/1000000
 
+df = pd.read_csv("ka_per.csv",index_col=0)
 
 lst = []
 for i in df['time']:

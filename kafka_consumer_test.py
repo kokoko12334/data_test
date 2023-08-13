@@ -35,6 +35,7 @@ for i in range(num_consumers):
 def consumer_messages(consumer_instance):
     for message in consumer_instance:
         if message:
+            
             logging.info(f"topic: {message.topic}, partition:{message.partition}, msg_size:{sys.getsizeof(message.value)}Byte")
 
 
