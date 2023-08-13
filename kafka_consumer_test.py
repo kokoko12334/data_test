@@ -15,21 +15,21 @@ consumer_config = {
     'auto_offset_reset': 'latest',
     'enable_auto_commit': True,
     'consumer_timeout_ms': 60000,
-    'max_partition_fetch_bytes':1024*1024,
+    'max_partition_fetch_bytes':1024*1024*16,
     'session_timeout_ms':70000,
     # 'fetch_max_bytes':1024*1024*60,
-    'max_poll_records': 2000,
-    'fetch_min_bytes':1024*126,
-    'fetch_max_wait_ms':1000
+    'max_poll_records': 4000,
+    'fetch_min_bytes':1024*1024,
+    'fetch_max_wait_ms':100
 
 }
 
-num_consumers = 3
+num_consumers = 4
 
 consumers = []
 for i in range(num_consumers):
     consumer = KafkaConsumer(**consumer_config)
-    consumer.subscribe(('test1','test2','test3'))
+    consumer.subscribe(('test1','test2'))
     consumers.append(consumer)
     
 def consumer_messages(consumer_instance):
