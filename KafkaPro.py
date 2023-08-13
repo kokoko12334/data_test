@@ -16,7 +16,8 @@ class MessageProducer:
                                       linger_ms=500,
                                     #   buffer_memory= 1024*1024*5,
                                       max_request_size=1024*1024*1024,
-                                      # compression_type='snappy'
+                                      # compression_type='snappy',
+                                      
                                 
                                       )
 

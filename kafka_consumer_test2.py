@@ -16,11 +16,12 @@ conf = {
     'allow.auto.create.topics':False,
     'max.partition.fetch.bytes':1024*1024*16,
     'session.timeout.ms':70000,   #heartbeat를 기다리는 시간, 설정한 시간을 넘어버리면 리밸런싱함(default:10초)
-    'message.max.bytes':1024*1024*60,
+    # 'message.max.bytes':1024*1024*60,
     'fetch.min.bytes':1024*1024,
     # 'max.poll.interval.ms':1000, #다음 poll까지 기다리는 시간, 이 시간 설정을 넘겨도 poll하지 않으면 리밸런싱함
-    'heartbeat.interval.ms':3000, #살아있다는 heartbeat를 주는 주기(default:3초)
+    # 'heartbeat.interval.ms':3000, #살아있다는 heartbeat를 주는 주기(default:3초)
     # 'max.poll.records':2000
+    'fetch.wait.max.ms':100,
 }
 
 num_consumers = 4
@@ -35,7 +36,7 @@ topics=['test1','test2']
 def basic_consume_loop(consumer, topics):
     running = True
     logging.info(f"상태: 실행 중")
-    poll_timeout = 1
+    poll_timeout = 0.1
     try:
         consumer.subscribe(topics)
 

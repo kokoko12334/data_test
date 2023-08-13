@@ -2,12 +2,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-df_cpu = pd.read_csv("kafka_performance_results/3-3/cpu.csv")
-df_rb = pd.read_csv("kafka_performance_results/3-3/disk_rb.csv")
-df_wb = pd.read_csv("kafka_performance_results/3-3/disk_wb.csv")
-df_rby = pd.read_csv("kafka_performance_results/3-3/received_bytes.csv")
-df_sby = pd.read_csv("kafka_performance_results/3-3/sent_bytes.csv")
-df_m = pd.read_csv("kafka_performance_results/3-3/memory.csv")
+df_cpu = pd.read_csv("kafka_performance_results/load_test/cpu.csv")
+df_rb = pd.read_csv("kafka_performance_results/load_test/disk_rb.csv")
+df_wb = pd.read_csv("kafka_performance_results/load_test/disk_wb.csv")
+df_rby = pd.read_csv("kafka_performance_results/load_test/received_bytes.csv")
+df_sby = pd.read_csv("kafka_performance_results/load_test/sent_bytes.csv")
+df_m = pd.read_csv("kafka_performance_results/load_test/memory.csv")
 
 
 df = pd.merge(df_cpu,df_rb, on='time')
@@ -28,6 +28,8 @@ lst = []
 for i in df['time']:
     lst.append(i.split()[4])
 df['time'] = lst
+
+df.head()
 
 plt.rcParams['font.family'] ='Malgun Gothic'
 plt.rcParams['axes.unicode_minus'] =False

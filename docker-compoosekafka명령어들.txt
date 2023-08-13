@@ -8,7 +8,7 @@ start: 2:31 ~
 #topics
 
 --생성
-docker-compose -f docker-compose_server.yml exec kafka-1 kafka-topics --create --topic test1 --bootstrap-server kafka-1:9092 --replication-factor 3 --partitions 3
+docker-compose -f docker-compose_server.yml exec kafka-1 kafka-topics --create --topic test1 --bootstrap-server kafka-1:9092 --replication-factor 3 --partitions 4
 
 docker-compose exec kafka-1 kafka-topics --create --topic test1 --bootstrap-server kafka-1:9092 --replication-factor 3 --partitions 3
 
@@ -48,13 +48,58 @@ docker-compose -f docker-compose.yml exec kafka-1 kafka-consumer-perf-test \
 wget https://github.com/danielqsj/kafka_exporter/releases/download/v2.3.1/kafka_exporter-2.3.1.linux-amd64.tar.gz
 
 
+10만개 씩(1,428)
 
-13:03:0013
-~13:22:00
+-비동기(aiokafka)
+2023-08-13 22:16:55,460
+2023-08-13 22:16:55,874
+=0.0414
+
+-동기 처리(confluent)
+
+2023-08-13 22:24:26,226
+2023-08-13 22:24:27,059
+=0.0833
+
+-동기처리(kafka-python)
+2023-08-13 21:44:33,149
+2023-08-13 21:44:34,165
+= 0.1016초
 
 
 
+30만개씩(1,395)
+
+-비동기(aiokafka)
+2023-08-13 22:44:06,581
+2023-08-13 22:44:06,582
+=0.001
+
+-동기 처리(confluent)
+2023-08-13 22:03:46,581
+2023-08-13 22:03:48,122
+=0.1541초
+
+-동기처리(kafka-python)
+2023-08-13 21:53:51,665
+2023-08-13 21:53:52,059
+=0.0394초
 
 
+70만개씩(1,386)
 
+-비동기(aiokafka)
+2023-08-13 23:04:43,538 
+2023-08-13 23:04:44,989
+= 0.1451
+
+-동기 처리(confluent)
+2023-08-14 00:09:13,896
+2023-08-14 00:09:17,256
+= 0.3360
+
+-동기처리(kafka-python)
+2023-08-13 23:34:28,019
+2023-08-13 23:34:28,812
+=0.0793
 
