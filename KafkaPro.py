@@ -12,7 +12,7 @@ class MessageProducer:
         self.producer = KafkaProducer(bootstrap_servers=self.broker,
                                     #   value_serializer=lambda x: json.dumps(x).encode('utf-8'),
                                       acks=1,
-                                      batch_size = 4092*2000,
+                                      batch_size = 1024*1024,
                                       linger_ms=500,
                                     #   buffer_memory= 1024*1024*5,
                                       max_request_size=1024*1024*1024,
