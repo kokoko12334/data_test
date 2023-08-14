@@ -1,6 +1,6 @@
 from kafka import KafkaProducer
 import json
-
+import time
 class MessageProducer:
     broker = ""
     topic = ""
@@ -23,7 +23,10 @@ class MessageProducer:
 
     def send_message(self, msg):
         try:
+            
             future = self.producer.send(self.topic, msg)
+              
+            
             # self.producer.flush()   # 비우는 작업
             # future.get(timeout=60)
             met = self.producer.metrics()
@@ -42,5 +45,5 @@ class MessageProducer:
                     'batch_size_avg':batch_size_avg,
                     'status_code': 200}
         except Exception as e:
-            print("error:::::",e)
+            print("error:ddd",e)
             return e

@@ -14,7 +14,7 @@ consumer_config = {
     'group_id': g_id,
     'auto_offset_reset': 'latest',
     'enable_auto_commit': True,
-    'consumer_timeout_ms': 60000,
+    'consumer_timeout_ms': 20000,
     'max_partition_fetch_bytes':1024*1024*16,
     'session_timeout_ms':70000,
     # 'fetch_max_bytes':1024*1024*60,

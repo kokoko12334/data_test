@@ -3,7 +3,7 @@ import threading
 from aiokafka import AIOKafkaConsumer
 import logging
 import sys
-
+import time
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
@@ -12,13 +12,13 @@ async def consume(loop,g_id):
         bootstrap_servers="34.146.29.164:29092",
         loop=loop,
         group_id=g_id,
-        auto_offset_reset='latest',
+        auto_offset_reset='earliest',
         enable_auto_commit= True,
-        session_timeout_ms=70000, 
+        session_timeout_ms=70000,
         fetch_min_bytes=1024*1024,
         heartbeat_interval_ms=3000,
         fetch_max_wait_ms=100,
-        consumer_timeout_ms=30000
+        consumer_timeout_ms=5000
     )
     topics = ['test1','test2']
     consumer.subscribe(topics)
