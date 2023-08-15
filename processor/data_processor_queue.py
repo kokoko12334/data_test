@@ -4,6 +4,7 @@ from multiprocessing import Process, Queue, Pipe
 import os
 import json
 import sys
+import time
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def receive_and_put(q,num):
@@ -63,18 +64,20 @@ def get_and_send(q):
 if __name__=="__main__":
 
     q = Queue()
-
-    num = 10000
+    
+    num = 4000
 
     process1 = Process(target=receive_and_put, args=(q,num))
     process2 = Process(target=get_and_send, args=(q,))
-    process3 = Process(target=get_and_send, args=(q,))
     
+
+    s = time.time()
+
     process1.start()
     process2.start()
-    process3.start()
     
     process1.join()
     process2.join()
-    process3.join()
 
+
+    print(f'총 소요시간:{time.time()-s}')
