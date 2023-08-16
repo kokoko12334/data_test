@@ -5,6 +5,7 @@ import os
 import json
 import sys
 import time
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def receive_and_put(pipe,num):
@@ -21,6 +22,7 @@ def receive_and_put(pipe,num):
     
 
     pipe.send(None)
+
     pipe.close() 
     
     return
@@ -62,8 +64,6 @@ def get_and_send(pipe):
         except EOFError:
             break  
     
-    
-
     return
 
 
@@ -71,7 +71,7 @@ def get_and_send(pipe):
 
 if __name__=="__main__":
 
-    num = 100000
+    num = 10000
 
     parent_pipe, child_pipe = Pipe()
 
@@ -83,7 +83,6 @@ if __name__=="__main__":
     process1.start()
     process2.start()
 
-    
     process1.join()
     process2.join()
     

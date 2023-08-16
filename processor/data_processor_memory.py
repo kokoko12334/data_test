@@ -14,7 +14,6 @@ def receive_and_put(shm,shm_len,p1_idx,p2_idx,num):
     msg = 'a'*4092
 
     p_id = os.getpid()
-
     
     while p1_idx.value < num:
 
@@ -24,10 +23,14 @@ def receive_and_put(shm,shm_len,p1_idx,p2_idx,num):
             
             pass
         
-        else:    
+        else:
+
             shm[idx] = msg
+
             logging.info(f"PID:{p_id}, receive and put:{sys.getsizeof(msg)}byte, {p1_idx.value}번째 데이터 보냄")
+
             p1_idx.value = p1_idx.value + 1
+
     return
 
 def get_and_send(shm,shm_len,p1_idx,p2_idx,num):
@@ -52,16 +55,21 @@ def get_and_send(shm,shm_len,p1_idx,p2_idx,num):
     while p2_idx.value < num:
 
         if p2_idx.value == p1_idx.value:
+
             pass
 
         else:
+
             p2_idx.value = p2_idx.value + 1
+
             idx = p2_idx.value%shm_len
+
             msg = shm[idx]
+
             producer.send(topic, msg)
+
             logging.info(f"PID:{p_id}, get and send:{sys.getsizeof(msg)}byte")  
     
-
     return
 
 
@@ -71,10 +79,10 @@ if __name__=="__main__":
 
     with Manager() as manager:
     
-        p1_idx = Value('i', 0)  # Create a shared memory object
+        p1_idx = Value('i', 0)  # 공유메모리 인덱스
         p2_idx = Value('i',0)
 
-        shm_len = 10
+        shm_len = 100
         shm = manager.list(['0']*shm_len) 
 
 

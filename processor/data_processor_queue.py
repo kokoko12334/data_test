@@ -5,6 +5,7 @@ import os
 import json
 import sys
 import time
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def receive_and_put(q,num):
@@ -43,7 +44,6 @@ def get_and_send(q):
 
     while True:
         
-
         if not q.empty():
 
             msg = q.get()
@@ -65,7 +65,7 @@ if __name__=="__main__":
 
     q = Queue()
     
-    num = 4000
+    num = 10000
 
     process1 = Process(target=receive_and_put, args=(q,num))
     process2 = Process(target=get_and_send, args=(q,))
