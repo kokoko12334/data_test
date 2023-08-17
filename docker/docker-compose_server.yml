@@ -69,6 +69,9 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       # KAFKA_LOG_FLUSH_INTERVAL_MESSAGES: 1000000
       KAFKA_LOG_FLUSH_INTERVAL_MS: 100000
+      KAFKA_MESSAGE_MAX_BYTES: 536870912
+      KAFKA_FETCH_MAX_BYTES: 536870912
+      
     volumes:
       - /mnt/disks/sdc/kafka_storage/kafka-1:/var/lib/kafka/data
       
@@ -93,6 +96,8 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       # KAFKA_LOG_FLUSH_INTERVAL_MESSAGES: 1000000
       KAFKA_LOG_FLUSH_INTERVAL_MS: 100000
+      KAFKA_MESSAGE_MAX_BYTES: 536870912
+      KAFKA_FETCH_MAX_BYTES: 536870912
     volumes:
       - /mnt/disks/sdc/kafka_storage/kafka-2:/var/lib/kafka/data  
 
@@ -117,6 +122,8 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       # KAFKA_LOG_FLUSH_INTERVAL_MESSAGES: 1000000
       KAFKA_LOG_FLUSH_INTERVAL_MS: 100000
+      KAFKA_MESSAGE_MAX_BYTES: 536870912
+      KAFKA_FETCH_MAX_BYTES: 536870912
     volumes:
       - /mnt/disks/sdc/kafka_storage/kafka-3:/var/lib/kafka/data 
       

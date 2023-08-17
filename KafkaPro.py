@@ -13,10 +13,12 @@ class MessageProducer:
                                     #   value_serializer=lambda x: json.dumps(x).encode('utf-8'),
                                       acks=1,
                                       batch_size = 1024*1024,
-                                      linger_ms=500,
-                                    #   buffer_memory= 1024*1024*5,
+                                      linger_ms=100,
+                                      buffer_memory= 1024*1024*1024,
                                       max_request_size=1024*1024*1024,
-                                      # compression_type='snappy',
+                                    #   compression_type='gzip',
+                                      retries=0
+                                      
                                       
                                 
                                       )

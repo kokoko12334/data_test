@@ -1,26 +1,26 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
+base = "kafka_load_test/10000/"
+df_cpu = pd.read_csv(base +"cpu.csv")
+# df_rb = pd.read_csv(base + "disk_rb.csv")
+df_wb = pd.read_csv(base + "disk_wb.csv")
+df_rby = pd.read_csv(base + "received_bytes.csv")
+# df_sby = pd.read_csv(base + "sent_bytes.csv")
+df_m = pd.read_csv(base + "memory.csv")
 
-df_cpu = pd.read_csv("kafka_performance_results/load_test/cpu.csv")
-df_rb = pd.read_csv("kafka_performance_results/load_test/disk_rb.csv")
-df_wb = pd.read_csv("kafka_performance_results/load_test/disk_wb.csv")
-df_rby = pd.read_csv("kafka_performance_results/load_test/received_bytes.csv")
-df_sby = pd.read_csv("kafka_performance_results/load_test/sent_bytes.csv")
-df_m = pd.read_csv("kafka_performance_results/load_test/memory.csv")
 
-
-df = pd.merge(df_cpu,df_rb, on='time')
-df = pd.merge(df,df_wb,on='time')
+df = pd.merge(df_cpu,df_wb, on='time')
+# df = pd.merge(df,df_wb,on='time')
 df = pd.merge(df,df_rby,on='time')
-df = pd.merge(df,df_sby,on='time')
-df
+# df = pd.merge(df,df_sby,on='time')
+df.head(3)
 
 df['cpu_utilization'] = df['cpu_utilization']*100
-df['disk_rb'] = df['disk_rb']/1000000
+# df['disk_rb'] = df['disk_rb']/1000000
 df['disk_wb'] = df['disk_wb']/1000000
 df['received_bytes'] = df['received_bytes']/1000000
-df['sent_bytes'] = df['sent_bytes']/1000000
+# df['sent_bytes'] = df['sent_bytes']/1000000
 
 df = pd.read_csv("ka_per.csv",index_col=0)
 
@@ -35,7 +35,7 @@ plt.rcParams['font.family'] ='Malgun Gothic'
 plt.rcParams['axes.unicode_minus'] =False
 
 cols = df.columns
-t = ['1','cpu 사용률','디스크 읽기 처리량(Mib/s)','디스크 쓰기 처리량(Mib/s)','네트워크 수신량(Mib/s)','네트워크 송신량(Mib/s)']
+t = ['1','cpu 사용률','디스크 쓰기 처리량(Mib/s)','네트워크 수신량(Mib/s)']
 for i in range(1,len(cols)):
     
     mean = round(df[cols[i]].mean(),2)
@@ -47,7 +47,7 @@ for i in range(1,len(cols)):
 
 
 
-
+df_m
 lst = []
 for i in df_m['time']:
     lst.append(i.split()[4])

@@ -9,7 +9,7 @@ start: 2:31 ~
 #topics
 
 --생성
-docker-compose -f docker-compose_server.yml exec kafka-1 kafka-topics --create --topic test1 --bootstrap-server kafka-1:9092 --replication-factor 3 --partitions 4
+docker-compose -f docker-compose_server.yml exec kafka-1 kafka-topics --create --bootstrap-server kafka-1:9092 --replication-factor 3 --partitions 4 --topic test1
 
 docker-compose exec kafka-1 kafka-topics --create --topic test1 --bootstrap-server kafka-1:9092 --replication-factor 3 --partitions 3
 
@@ -21,23 +21,40 @@ docker-compose -f docker-compose_server.yml exec kafka-1 kafka-topics --list --b
 docker-compose -f docker-compose_server.yml exec kafka-1 kafka-topics --delete --bootstrap-server kafka-1:9092 --topic test1
 
 
+버퍼/캐시메모리 삭제
+sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'
 
-
-
+2:43
 
 #pro
 
-docker-compose -f docker-compose.yml exec kafka-1 kafka-producer-perf-test \
+docker-compose -f docker-compose_server.yml exec kafka-1 kafka-producer-perf-test \
 --producer-props bootstrap.servers=34.146.29.164:29092 \
---topic test1 \
---record-size 2000 --num-records 20000000 --throughput -1 \
---print-metric
+--print-metric \
+--record-size 4096 --num-records 1000000 --throughput -3000 \
+--topic test1
 
+
+# 윈도우
+./kafka-producer-perf-test.bat `
+--producer-props bootstrap.servers=34.146.29.164:29092 `
+--print-metric `
+--record-size 4096 --num-records 1000000 --throughput 10000 `
+--topic test1
 
 
 
 #con
 
+./kafka-consumer-perf-test.bat `
+--broker-list 34.146.29.164:29092 `
+--topic test1 `
+--messages 20000000 `
+--show-detailed-stats `
+--reporting-interval 1000
+
+
+##윈도우
 docker-compose -f docker-compose.yml exec kafka-1 kafka-consumer-perf-test \
 --broker-list 34.146.29.164:2139092 \
 --topic test1 \
@@ -124,7 +141,7 @@ wget https://github.com/danielqsj/kafka_exporter/releases/download/v2.3.1/kafka_
 
 공유메모리: 193.66116905212402
 
-
+11:32 ~12:00
 
 
 
