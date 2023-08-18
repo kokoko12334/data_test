@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-base = "kafka_load_test/10000/"
+base = "kafka_load_test/9/10000/"
 df_cpu = pd.read_csv(base +"cpu.csv")
 # df_rb = pd.read_csv(base + "disk_rb.csv")
 df_wb = pd.read_csv(base + "disk_wb.csv")
@@ -22,7 +22,7 @@ df['disk_wb'] = df['disk_wb']/1000000
 df['received_bytes'] = df['received_bytes']/1000000
 # df['sent_bytes'] = df['sent_bytes']/1000000
 
-df = pd.read_csv("ka_per.csv",index_col=0)
+# df = pd.read_csv("ka_per.csv",index_col=0)
 
 lst = []
 for i in df['time']:
@@ -63,4 +63,6 @@ plt.show()
 
 
 
+df_wb['disk_wb'] = df_wb['disk_wb']/1000000
 
+df_wb['disk_wb'].mean()

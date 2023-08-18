@@ -31,7 +31,7 @@ sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'
 docker-compose -f docker-compose_server.yml exec kafka-1 kafka-producer-perf-test \
 --producer-props bootstrap.servers=34.146.29.164:29092 \
 --print-metric \
---record-size 4096 --num-records 1000000 --throughput -3000 \
+--record-size 4096 --num-records 1000000 --throughput -1000 \
 --topic test1
 
 
@@ -39,13 +39,13 @@ docker-compose -f docker-compose_server.yml exec kafka-1 kafka-producer-perf-tes
 ./kafka-producer-perf-test.bat `
 --producer-props bootstrap.servers=34.146.29.164:29092 `
 --print-metric `
---record-size 4096 --num-records 1000000 --throughput 10000 `
+--record-size 4096 --num-records 1000000 --throughput 1000 `
 --topic test1
 
 
 
 #con
-
+##윈도우
 ./kafka-consumer-perf-test.bat `
 --broker-list 34.146.29.164:29092 `
 --topic test1 `
@@ -54,13 +54,21 @@ docker-compose -f docker-compose_server.yml exec kafka-1 kafka-producer-perf-tes
 --reporting-interval 1000
 
 
-##윈도우
+##리눅스
 docker-compose -f docker-compose.yml exec kafka-1 kafka-consumer-perf-test \
 --broker-list 34.146.29.164:2139092 \
 --topic test1 \
 --messages 20000000 \
 --show-detailed-stats \
 --reporting-interval 1000
+
+
+#latency
+
+./kafka-run-class.bat kafka.tools.EndToEndLatency `
+34.146.29.164:29092,34.146.29.164:39092,34.146.29.164:49092 `
+test2 10000 1 4096 `
+./end_to_end.properties
 
 
 wget https://github.com/danielqsj/kafka_exporter/releases/download/v2.3.1/kafka_exporter-2.3.1.linux-amd64.tar.gz

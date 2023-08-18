@@ -12,7 +12,7 @@ g_id = input("그룹이름:")
 consumer_config = {
     'bootstrap_servers': brokers,
     'group_id': g_id,
-    'auto_offset_reset': 'latest',
+    'auto_offset_reset': 'earliest',
     'enable_auto_commit': True,
     'consumer_timeout_ms': 20000,
     'max_partition_fetch_bytes':1024*1024*16,
@@ -29,7 +29,7 @@ num_consumers = 4
 consumers = []
 for i in range(num_consumers):
     consumer = KafkaConsumer(**consumer_config)
-    consumer.subscribe(('test1','test2'))
+    consumer.subscribe(('test1','test2','test3','test4'))
     consumers.append(consumer)
     
 def consumer_messages(consumer_instance):
