@@ -7,11 +7,10 @@ import os
 from multiprocessing import Process
 
 msg = b'a'*4096
+
 num = 1000000
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-
 
 def req(msg,num,b,t):
     broker, topic = b,t
@@ -29,6 +28,7 @@ if __name__ == "__main__":
     s = time.time()   
 
     topics= ['test1','test2','test3','test4','test5']
+
     process_num = len(topics)
     
     processes = []

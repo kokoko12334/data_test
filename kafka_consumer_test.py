@@ -29,7 +29,7 @@ num_consumers = 4
 consumers = []
 for i in range(num_consumers):
     consumer = KafkaConsumer(**consumer_config)
-    consumer.subscribe(('test1','test2','test3','test4'))
+    consumer.subscribe(['test1','test2','test3','test4'])
     consumers.append(consumer)
     
 def consumer_messages(consumer_instance):

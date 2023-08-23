@@ -36,12 +36,11 @@ docker-compose -f docker-compose_server.yml exec kafka-1 kafka-producer-perf-tes
 
 
 # 윈도우
-./kafka-producer-perf-test.bat `
+start ./kafka-producer-perf-test.bat `
 --producer-props bootstrap.servers=34.146.29.164:29092 `
 --print-metric `
---record-size 4096 --num-records 10000 --throughput 100 `
+--record-size 4096 --num-records 1000 --throughput 1000 `
 --topic test1
-
 
 
 #con
@@ -49,10 +48,10 @@ docker-compose -f docker-compose_server.yml exec kafka-1 kafka-producer-perf-tes
 ./kafka-consumer-perf-test.bat `
 --broker-list 34.146.29.164:29092 `
 --topic test1 `
---messages 20000000 `
+--messages 1000 `
 --show-detailed-stats `
---reporting-interval 1000
-
+--reporting-interval 100
+--group g1
 
 ##리눅스
 docker-compose -f docker-compose.yml exec kafka-1 kafka-consumer-perf-test \
