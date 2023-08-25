@@ -1,4 +1,4 @@
-broker = "34.146.29.164:29092"
+broker = "34.22.67.163:29092"
 topic = "test1"
 
 48:30
@@ -6,6 +6,13 @@ topic = "test1"
 192.168.0.26:29092
 start: 2:31 ~
 
+# -Dcom.sun.management.jmxremote.rmi.port=9999
+-Dcom.sun.management.jmxremote=true
+                    -Dcom.sun.management.jmxremote.ssl=false
+                    -Dcom.sun.management.jmxremote.authenticate=false
+                    -Dcom.sun.management.jmxremote.local.only=false
+                    -Djava.rmi.server.hostname=${IP}
+                    -Djava.net.preferIPv4Stack=true
 #topics
 
 --생성
@@ -13,9 +20,9 @@ docker-compose -f docker-compose_server.yml exec kafka-1 kafka-topics --create -
 
 docker-compose exec kafka-1 kafka-topics --create --topic test1 --bootstrap-server kafka-1:9092 --replication-factor 3 --partitions 3
 
+
 --조회
 docker-compose -f docker-compose_server.yml exec kafka-1 kafka-topics --list --bootstrap-server kafka-1:9092
-
 
 --삭제
 docker-compose -f docker-compose_server.yml exec kafka-1 kafka-topics --delete --bootstrap-server kafka-1:9092 --topic test1
@@ -36,12 +43,17 @@ docker-compose -f docker-compose_server.yml exec kafka-1 kafka-producer-perf-tes
 
 
 # 윈도우
-start ./kafka-producer-perf-test.bat `
+./kafka-producer-perf-test.bat `
 --producer-props bootstrap.servers=34.146.29.164:29092 `
 --print-metric `
 --record-size 4096 --num-records 1000 --throughput 1000 `
 --topic test1
 
+./kafka-producer-perf-test.bat `
+--producer-props bootstrap.servers=192.168.0.26:9092 `
+--print-metric `
+--record-size 4096 --num-records 10000 --throughput 1000 `
+--topic ttt
 
 #con
 ##윈도우
@@ -52,6 +64,7 @@ start ./kafka-producer-perf-test.bat `
 --show-detailed-stats `
 --reporting-interval 100
 --group g1
+
 
 ##리눅스
 docker-compose -f docker-compose.yml exec kafka-1 kafka-consumer-perf-test \
@@ -151,8 +164,46 @@ wget https://github.com/danielqsj/kafka_exporter/releases/download/v2.3.1/kafka_
 11:32 ~12:00
 
 
+--kafka ui
+
+docker run -p 8080:8080 `
+	-e KAFKA_CLUSTERS_0_NAME=kafka-1 `
+	-e KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=34.22.67.163:29092,34.22.67.163:39092,34.22.67.163:49092,34.22.67.163:59092,34.22.67.163:19092 `
+	-e KAFKA_CLUSTERS_0_ZOOKEEPER=34.22.67.163:22181 `
+	-e DYNAMIC_CONFIG_ENABLED=true `
+	-d provectuslabs/kafka-ui:master
 
 
+
+Error: JMX connector server communication error: service:jmx:rmi://34.146.29.164:8999
+jdk.internal.agent.AgentConfigurationError: java.rmi.server.ExportException: Port already in use: 8999; nested exception is:
+        java.net.BindException: Cannot assign requested address (Bind failed)
+        at jdk.management.agent/sun.management.jmxremote.ConnectorBootstrap.exportMBeanServer(ConnectorBootstrap.java:820)
+        at jdk.management.agent/sun.management.jmxremote.ConnectorBootstrap.startRemoteConnectorServer(ConnectorBootstrap.java:479)
+        at jdk.management.agent/jdk.internal.agent.Agent.startAgent(Agent.java:447)
+        at jdk.management.agent/jdk.internal.agent.Agent.startAgent(Agent.java:599)
+Caused by: java.rmi.server.ExportException: Port already in use: 8999; nested exception is:
+        java.net.BindException: Cannot assign requested address (Bind failed)
+        at java.rmi/sun.rmi.transport.tcp.TCPTransport.listen(TCPTransport.java:335)
+        at java.rmi/sun.rmi.transport.tcp.TCPTransport.exportObject(TCPTransport.java:243)
+        at java.rmi/sun.rmi.transport.tcp.TCPEndpoint.exportObject(TCPEndpoint.java:412)
+        at java.rmi/sun.rmi.transport.LiveRef.exportObject(LiveRef.java:147)
+        at java.rmi/sun.rmi.server.UnicastServerRef.exportObject(UnicastServerRef.java:234)
+        at jdk.management.agent/sun.management.jmxremote.ConnectorBootstrap$PermanentExporter.exportObject(ConnectorBootstrap.java:203)
+        at java.management.rmi/javax.management.remote.rmi.RMIJRMPServerImpl.export(RMIJRMPServerImpl.java:153)
+        at java.management.rmi/javax.management.remote.rmi.RMIJRMPServerImpl.export(RMIJRMPServerImpl.java:138)
+        at java.management.rmi/javax.management.remote.rmi.RMIConnectorServer.start(RMIConnectorServer.java:473)
+        at jdk.management.agent/sun.management.jmxremote.ConnectorBootstrap.exportMBeanServer(ConnectorBootstrap.java:816)
+        ... 3 more
+Caused by: java.net.BindException: Cannot assign requested address (Bind failed)
+        at java.base/java.net.PlainSocketImpl.socketBind(Native Method)
+        at java.base/java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:452)
+        at java.base/java.net.ServerSocket.bind(ServerSocket.java:400)
+        at java.base/java.net.ServerSocket.<init>(ServerSocket.java:262)
+        at jdk.management.agent/sun.management.jmxremote.ConnectorBootstrap$HostAwareSocketFactory.createServerSocket(ConnectorBootstrap.java:894)
+        at java.rmi/sun.rmi.transport.tcp.TCPEndpoint.newServerSocket(TCPEndpoint.java:670)
+        at java.rmi/sun.rmi.transport.tcp.TCPTransport.listen(TCPTransport.java:324)
+        ... 12 more
 
 
 

@@ -76,8 +76,12 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-    # volumes:
-      # - ${K}/kafka-1:/var/lib/kafka/data
+      # KAFKA_LOG_FLUSH_INTERVAL_MESSAGES: 1000000
+      KAFKA_LOG_FLUSH_INTERVAL_MS: 100000
+      KAFKA_MESSAGE_MAX_BYTES: 536870912
+      KAFKA_FETCH_MAX_BYTES: 536870912
+    volumes:
+      - ${K}/kafka-1:/var/lib/kafka/data
     networks:
       - kafka-net  
       
@@ -100,8 +104,12 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-    # volumes:
-      # - ${K}/kafka-2:/var/lib/kafka/data  
+      # KAFKA_LOG_FLUSH_INTERVAL_MESSAGES: 1000000
+      KAFKA_LOG_FLUSH_INTERVAL_MS: 100000
+      KAFKA_MESSAGE_MAX_BYTES: 536870912
+      KAFKA_FETCH_MAX_BYTES: 536870912
+    volumes:
+      - ${K}/kafka-2:/var/lib/kafka/data  
     networks:
       - kafka-net
   kafka-3:
@@ -123,7 +131,11 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 3
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 3
-    # volumes:
-    #   - ${K}/kafka-3:/var/lib/kafka/data
+      # KAFKA_LOG_FLUSH_INTERVAL_MESSAGES: 1000000
+      KAFKA_LOG_FLUSH_INTERVAL_MS: 100000
+      KAFKA_MESSAGE_MAX_BYTES: 536870912
+      KAFKA_FETCH_MAX_BYTES: 536870912
+    volumes:
+      - ${K}/kafka-3:/var/lib/kafka/data
     networks:
       - kafka-net

@@ -1,10 +1,10 @@
 @echo off
 
-set "topics=test1 test2 test3 test4 test5"
-set "message=1000"
+set "topics=test1"
+set "message=10000"
 set "num_records=1000"
 set "interval=100"
-set "repeat_count=5"
+set "repeat_count=1"
 
 REM 멀티프로세스 실행
 for /l %%i in (1,1,%repeat_count%) do (
