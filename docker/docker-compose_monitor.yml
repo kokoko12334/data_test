@@ -1,0 +1,35 @@
+version: '2'
+networks:
+  kafka_net: # 세 서비스를 하나의 네트워크로 묶어줌
+services:
+  kafka_manager:
+    image: sheepkiller/kafka-manager:latest
+    ports:
+      - "9000:9000"
+    environment:
+      ZK_HOSTS: "${IP}:22181"
+      APPLICATION_SECRET: "random-secret"
+    networks:
+      - kafka_net
+      
+  jmx_export:
+    image: bitnami/jmx-exporter:latest
+    ports: 
+      - "5556:5556"
+    command:
+      - --kafka.server={kafka}:9092
+    volumes:
+      - ${LOG_DIR}/jmx_config.yml:/opt/jmx_exporter/config.yml
+
+    networks:
+      - kafka_net
+
+  prometheus:
+  
+    image: bitnami/prometheus:latest
+    ports:
+    - 9090:9090
+    volumes:
+    - ${LOG_DIR}/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+    - kafka_net

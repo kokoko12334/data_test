@@ -6,7 +6,7 @@ import time
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
-brokers = [i for i in input("brokers: ").split(" ")]
+brokers = [i for i in input("brokers: ").split(",")]
 g_id = input("그룹이름:")
 
 consumer_config = {

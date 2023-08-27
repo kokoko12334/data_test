@@ -1,9 +1,9 @@
 @echo off
 
-set "topics=test1 test2 test3 test4 test5 test6 test7 test8 test9 test10"
+set "topics=test1"
 set "record_size=4096"
-set "num_records=1000000"
-set "throughput=10000"
+set "num_records=1000"
+set "throughput=10"
 
 REM 멀티프로세스 실행
 for %%t in (%topics%) do (

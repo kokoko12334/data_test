@@ -2,9 +2,9 @@ version: "2"
 services:
   
   kafka_manager:
-    image: hlebalbau/kafka-manager:stable
+    image: sheepkiller/kafka-manager:latest
     ports:
       - "9000:9000"
     environment:
-      ZK_HOSTS: "34.22.83.202:22181" # zookeeper 컨테이너 이름과 포트를 명시한다
+      ZK_HOSTS: "${IP}:22181" # zookeeper 컨테이너 이름과 포트를 명시한다
       APPLICATION_SECRET: "random-secret"
